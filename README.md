@@ -1,20 +1,10 @@
-<<<<<<< HEAD
-# todo_app
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
-# todoapp
->>>>>>> f5b312e21c70976ac7d314cc270fa84d77b99f9a
+# TodoApp
+Титов МПБ-301
+Позволяет отслеживать задачи на день. Для тех кто хочет распланировать день, или просто не забыть что должен сделать.
+## Стек
+Flutter
+Dart
+### Быстрый старт
+В командной строке запущенной из каталога проекта:
+flutter run
+И выбираем любой браузер/эмулятор/подключенный смартфон
