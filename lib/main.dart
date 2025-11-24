@@ -21,6 +21,13 @@ class ToDoApp extends StatelessWidget {
   }
 }
 
+class Task {
+  String text;
+  bool completed;
+
+  Task(this.text, {this.completed = false});
+}
+
 class ToDoPage extends StatefulWidget {
   const ToDoPage({super.key});
 
@@ -29,14 +36,14 @@ class ToDoPage extends StatefulWidget {
 }
 
 class _ToDoPageState extends State<ToDoPage> {
-  final List<String> tasks = [];
+  final List<Task> tasks = [];
   final TextEditingController controller = TextEditingController();
 
   void addTask() {
     if (controller.text.trim().isEmpty) return;
 
     setState(() {
-      tasks.add(controller.text.trim());
+      tasks.add(Task(controller.text.trim()));
       controller.clear();
     });
   }
@@ -47,8 +54,16 @@ class _ToDoPageState extends State<ToDoPage> {
     });
   }
 
+  void toggleTask(int index) {
+    setState(() {
+      tasks[index].completed = !tasks[index].completed;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completedCount = tasks.where((t) => t.completed).length;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF3F4F6),
       appBar: AppBar(
@@ -68,6 +83,27 @@ class _ToDoPageState extends State<ToDoPage> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+            // СЧЁТЧИК
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.indigo.shade50,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                "Выполнено: $completedCount из ${tasks.length}",
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.indigo,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
             // Поле ввода
             Container(
               decoration: BoxDecoration(
@@ -116,6 +152,8 @@ class _ToDoPageState extends State<ToDoPage> {
                       itemCount: tasks.length,
                       separatorBuilder: (_, __) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
+                        final task = tasks[index];
+
                         return Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -133,11 +171,22 @@ class _ToDoPageState extends State<ToDoPage> {
                               horizontal: 20,
                               vertical: 10,
                             ),
+                            leading: Checkbox(
+                              value: task.completed,
+                              activeColor: Colors.indigo,
+                              onChanged: (value) => toggleTask(index),
+                            ),
                             title: Text(
-                              tasks[index],
-                              style: const TextStyle(
+                              task.text,
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
+                                decoration: task.completed
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
+                                color: task.completed
+                                    ? Colors.grey
+                                    : Colors.black,
                               ),
                             ),
                             trailing: IconButton(
